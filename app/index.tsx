@@ -1,22 +1,25 @@
 import { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-
+import {FokusButton} from './components/FokusButton'
 
 const pomodoro = [
   {
     id: 'focus',
     initialValue: 25,
-    image: require('./pomodoro.png')
+    image: require('./pomodoro.png'),
+     display: 'Foco'
     },
   {
     id: 'short',
     initialValue: 5,
-    image: require('./short.png')
+    image: require('./short.png'),
+    display: 'Pausa Curta'
   },
   {
     id: 'long',
     initialValue: 15,
-    image: require('./long.png')
+    image: require('./long.png'),
+     display: 'Pausa Longa'
   }
 
 ]
@@ -29,21 +32,28 @@ export default function Index() {
 
   return (
     <View
-      style={styles.container}
-    >
-      <Image source={timerType.image}/>
-      <View style={styles.actions}>
-        <View style={styles.context}>
-          <Pressable style={styles.contextButtonActive}>
-            <Text style={styles.contextButtonText} >Foco</Text>
-            </Pressable>
-          <Pressable><Text  style={styles.contextButtonText}>Pausa Curta</Text> </Pressable>
-          <Pressable><Text style={styles.contextButtonText}>Pausa Longa</Text></Pressable>
-        </View> 
+    style={styles.container}
+  >
+    <Image source={timerType.image}/>
+    <View style={styles.actions}>
+      <View style={styles.context}>
+        {pomodoro.map(p => (
+          <Pressable 
+            key={p.id}
+            style={ timerType.id === p.id ? styles.contextButtonActive : null }
+            onPress={() => setTimerType(p)}
+          >
+            <Text style={styles.contextButtonText}>
+              {p.display}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
 
         <Text style={styles.timer}>
           { new Date(timerType.initialValue * 1000). toLocaleTimeString('pt-BR', {minute: '2-digit', second: '2-digit'})}
         </Text>
+        <FokusButton />
         <Pressable style={styles.button}>
         <Text style={styles.buttonText} >Começar</Text>
         </Pressable>
@@ -93,16 +103,6 @@ const styles = StyleSheet.create({
    contextButtonActive:{
     backgroundColor: '#144480',
     borderRadius: 8
-   },
-   button:{
-    backgroundColor: '#B872FF',
-    borderRadius: 32,
-    padding: 8,
-   }, 
-   buttonText:{
-    textAlign: 'center',
-    color: '#021123',
-    fontSize: 18
    },
    footer:{
     width: '80%',
