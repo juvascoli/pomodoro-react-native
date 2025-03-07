@@ -54,9 +54,6 @@ export default function Index() {
           { new Date(timerType.initialValue * 1000). toLocaleTimeString('pt-BR', {minute: '2-digit', second: '2-digit'})}
         </Text>
         <FokusButton />
-        <Pressable style={styles.button}>
-        <Text style={styles.buttonText} >Começar</Text>
-        </Pressable>
       </View>
 
          <View style={styles.footer}> 
